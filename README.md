@@ -16,7 +16,7 @@ and you'll also need to get the httplib2 library from
 [httplib2 on Google code](http://code.google.com/p/httplib2) to get starting.
 
 First of open the way2python.py and edit the following lines with your login details:  
-`USERNAME = 'your login phone number'`
+`USERNAME = 'your login phone number'`  
 `PASSWORD = 'your password'`
 
 Use the program by writing down the following on your command line:  
