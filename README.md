@@ -15,9 +15,9 @@ You'll require to have atleast Python 2.5 installed on your machine
 and you'll also need to get the httplib2 library from
 [httplib2 on Google code](http://code.google.com/p/httplib2) to get starting.  
 Use the following steps to install httplib2:
-1. Unzip the downloaded file `httplib2-x.x.x.tar.gz`.
-2. On the command line change to the unzipped folder and use the `python setup.py` command.
-3. You're done and you can remove the unzipped folder.
+1. Unzip the downloaded file `httplib2-x.x.x.tar.gz`.  
+2. On the command line change to the unzipped folder and use the `python setup.py` command.  
+3. You're done and you can remove the unzipped folder.  
 
 First of all open the way2python.py and edit the following lines with your login details:  
 `USERNAME = 'your login phone number'`  
