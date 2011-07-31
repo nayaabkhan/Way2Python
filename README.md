@@ -15,11 +15,11 @@ You'll require to have atleast Python 2.5 installed on your machine
 and you'll also need to get the httplib2 library from
 [httplib2 on Google code](http://code.google.com/p/httplib2) to get starting.
 
-First of open the way2python.py and fill out the login details:  
-`USERNAME = 'your login phone number'`  
-`PASSWORD = 'your password'`
+First of open the way2python.py and edit the following lines with your login details:  
+`USERNAME = 'your login phone number'
+PASSWORD = 'your password'`
 
-Use the utility by writing down the following on the command line:  
+Use the program by writing down the following on your command line:  
 `python way2python.py --numbers=9825012345:9998123456 --message="Hello, I am now using way2python!"`
 
 The `:` is used to separate multiple numbers.
