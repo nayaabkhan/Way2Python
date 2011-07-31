@@ -15,7 +15,7 @@ You'll require to have atleast Python 2.5 installed on your machine
 and you'll also need to get the httplib2 library from
 [httplib2 on Google code](http://code.google.com/p/httplib2) to get starting.
 
-First of open the way2python.py and edit the following lines with your login details:  
+First of all open the way2python.py and edit the following lines with your login details:  
 `USERNAME = 'your login phone number'`  
 `PASSWORD = 'your password'`
 
