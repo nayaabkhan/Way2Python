@@ -1,6 +1,8 @@
 Way2Python: Way2SMS API in Python
 =================================
 
+![Way2Python Logo](https://github.com/nayaab/Way2Python/blob/master/logo.gif?raw=true)
+
 Way2Python is a small command line utility written in python
 that can be used to send SMS's to multiple recipients without
 having to go through the process of logging into Way2SMS.com.
