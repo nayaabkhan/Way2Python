@@ -19,105 +19,32 @@
 
 # usage: python way2python.py --numbers=no1:no2:no3 --message="Your message here"
 
+import urllib2
+import cookielib
 import sys
-import getopt
-import random
-import urllib
-import httplib2
 
-# Fill out the following two account details
-USERNAME = 'your login phone number'
-PASSWORD = 'your password'
 
-version = '0.1beta'
-
-def main(argv):
+def sendmsg(username,password,receivers,msg):
+    url = 'http://site24.way2sms.com/Login1.action?'
+    data = 'username='+username+'&password='+password+'&Submit=Sign+in'
+    cj = cookielib.CookieJar()
+    opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
+    opener.addheaders = [('User-Agent','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.120 Safari/537.36')]
     try:
-        options, remainder = getopt.getopt(argv, 'hn:m:', ['help', 'numbers=', 'message=', 'version'])
-        
-        if len(options) == 0:
-            print_usage()
-            sys.exit(2)
-        
-        for opt, arg in options:
-            if opt in ('-h', '--help'):
-                print_usage()
-                sys.exit(0)
-            elif opt in ('-n', '--numbers'):
-                numbers = arg.split(':')
-            elif opt in ('-m', '--message'):
-                message = arg
-            elif opt == '--version':
-                print 'Way2Python Version', version
-                sys.exit(0)
-                
-        if valid_numbers(numbers) and valid_message(message):
-            send_sms(numbers, message)
-    except getopt.GetoptError, e:
-        print sys.argv[0] + ':', e.msg
-        print_usage()
-        sys.exit(2)
-
-def valid_numbers(numbers):
-    for number in numbers:
-        if len(number) <> 10:
-            print 'Number', number, 'isn\'t a valid Indian mobile number.'
-            return False
-    return True
-
-def valid_message(message):
-    if len(message) > 140:
-        print 'Your message exceeds the limit of 140 characters.'
-        return False
-    return True
-
-def send_sms(numbers, message):
-    server_list = ['site1', 'site2', 'site3', 'site4', 'site5', 'site6']
-    server = server_list[random.randint(0, len(server_list) - 1)]
-    
-    AUTH_URL = 'http://' + server + '.way2sms.com:80/auth.cl'
-    SMS_URL = 'http://' + server + '.way2sms.com/FirstServletsms?custid='
-    
-    http_conn = httplib2.Http()
-    
-    headers = {'Content-type': 'application/x-www-form-urlencoded',
-               'User-Agent': 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)'}
-    body = {'username': USERNAME, 'password': PASSWORD, 'login': 'Login'}
-    
-    try:
-        response, content = http_conn.request(AUTH_URL, 'POST', headers=headers, body=urllib.urlencode(body))
-    except:
-        print 'Authentication failed, check your login details again.'
-        return False
-    else:
-        print 'Were hooked on to the Way2SMS server!'
-
-    headers = {'Content-type': 'application/x-www-form-urlencoded',
-               'User-Agent': 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)',
-               'Cookie': response['set-cookie']}
-    
-    for number in numbers:
-        body = {'custid': 'undefined',
-               'HiddenAction': 'instantsms',
-               'Action': 'sa65sdf656fdfd',
-               'login': '',
-               'pass': '',
-               'MobNo': number,
-               'textArea': message}
-           
+        opener.open(url, data)
+    except IOError:
+        print "Error while logging in."
+        sys.exit(1)
+    session_id = str(cj).split('~')[1].split(' ')[0]
+    send_sms_url = 'http://site24.way2sms.com/smstoss.action?'
+    for number in receivers:
+        send_sms_data = 'ssaction=ss&Token='+str(session_id)+'&mobile='+str(number)+'&message='+msg+'&msgLen=136'
+        opener.addheaders = [('Referer', 'http://site25.way2sms.com/sendSMS?Token='+session_id)]
         try:
-            response, content = http_conn.request(SMS_URL, 'POST', headers=headers, body=urllib.urlencode(body))
-        except:
-            print 'Failed to send to', number
-            return False
-    
-        if content.find('successfully') <> -1:
-            print 'Message sent to', number
-        else:
-            print 'Failed to send to', number
+            opener.open(send_sms_url,send_sms_data)
+        except IOError:
+            print "Error while sending message"
+            
 
-def print_usage():
-    print 'usage: python', sys.argv[0], '--numbers=no1:no2:no3 --message="Your message here"'
-    
-if __name__ == '__main__':
-    main(sys.argv[1:])
+#EXAMPLE :
+#a = sendmsg("username","password",[receivers],"msg")
